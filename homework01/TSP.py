@@ -25,11 +25,31 @@ class TravelingSalesman(Problem):
         self.map = map
         
     def actions(self, state):
-        return [state + self.delta, state - self.delta]
-    
+        actions = []
+        lastCity = max(state)
+        i = 1
+        while i < (len(state)-2) :
+            currentCity = state[i]
+            for selectSwap in range(1, lastCity+1):
+                if currentCity != selectSwap:
+                    if state[i+1] != selectSwap:
+                        actions.append([currentCity, selectSwap])
+            i += 1
+        return actions
+
     def result(self, state, action):
-        return state
-    
+        """
+        :param state: current state in the tsp
+        :param action: a selected action (pair of cities to swap)
+        :return: the new state resulting from swapping the selected pair of cities to the given state
+        """
+        new_state = state[:]
+        swap_1 = state.index(action[0])
+        swap_2 = state.index(action[1])
+        new_state[swap_1] = action[1]
+        new_state[swap_2] = action[0]
+        return new_state
+
     def value(self, state):
         """
         :param state: the current city circuit
@@ -59,7 +79,7 @@ if __name__ == '__main__':
     annealing_max = 0
 
 
-    initial = [0,1,2,3,4,5,0]
+    initial = [0,1,2,3,4,0]
     map = {(0,1): 1.5, (0,2): 2, (0,3): 3, (0,4): 2.5, (0,5): 3,
            (1,2): 7, (1,3): 2.4, (1,4): 4, (1,5): 3.6,
            (2,3): 5,(2,4): 4.5, (2,5): 1.5,
@@ -67,9 +87,18 @@ if __name__ == '__main__':
            (4,5): 7.5}
     tsp = TravelingSalesman(initial, map)
 
-    test = [1,4,2,5,3,5,0]
+    print("initial value", tsp.value(initial))
 
-    print("testing value function", tsp.value(test))
+    actions = tsp.actions(initial)
+    print("actions", actions)
+
+    hill_solution = hill_climbing(tsp)
+    print("Hill-climbing solution: ", str(hill_solution), "value: ", str(tsp.value(hill_solution)))
+
+    annealing_solution = simulated_annealing(tsp,
+        exp_schedule(k=20, lam=0.005, limit=10000)
+    )
+    print("Simulated solution: ", str(annealing_solution), "value: ", str(tsp.value(annealing_solution)))
 
     """
     for i in range(10):
