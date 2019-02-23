@@ -8,7 +8,6 @@ These calls are mostly copied/adapted from AIMA Python.
 from csp import Sudoku, easy1, AC3, harder1, backtracking_search, mrv, \
     forward_checking, min_conflicts
 from search import depth_first_graph_search
-import time
 
 # 1. Set up the puzzle.
 #puzzle = Sudoku('483921657967345821251876493548132976729564138136798245372689514814253769695417382') # solved (Figure 6.4.b)
@@ -20,16 +19,12 @@ print('Start:')
 puzzle.display(puzzle.infer_assignment())
 
 # 2. Solve the puzzle.
-start = time.time()
 #depth_first_graph_search(puzzle)
 #AC3(puzzle)
 backtracking_search(puzzle)
 #min_conflicts(puzzle)
 
-end = time.time()
-
 # 3. Print the results.
-print ('Algorithm ran for --- %.2f seconds ---' % (end - start))
 if puzzle.goal_test(puzzle.infer_assignment()):
     print('Solution:')
     puzzle.display(puzzle.infer_assignment())

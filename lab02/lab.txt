@@ -1,11 +1,44 @@
+Ziqi Chen
+CS 344
+Professor Vander Linden
+Feb 11th 2019                                                        
+
+Lab 2 Write-Up
+
 Exercise 2.1
-a. Both hill-climbing and simulated annealing solved the problem by finding the correct global maximum.
+a. Both hill-climbing and simulated annealing solved the problem by finding the correct global maximum, at x=15, y=15.
 
-b. Hill-climbing takes less time to run than simulated annealing does. In fact, simulated annealing typically runs for 0,004 seconds, while hill-climbing usually takes 80 milliseconds to work. Overall, hill-climbing is a simpler algorithm than simulated annealing as it considers less factors at each state, causing it to work faster.
+b. Hill-climbing takes less time to run than simulated annealing does. In fact, simulated annealing typically runs for 4 milliseconds, while hill-climbing usually takes 0.08 milliseconds to work. Overall, hill-climbing is a simpler algorithm than simulated annealing as it considers less factors at each state, causing it to work faster.
 
-c. Hill-climbing is restricted in that it only climbs up. Here the starting value for x does not make any difference, because the objective function has no local maxima. Start anywhere, and the right path towards the maximum is always going up, so both algorithms can handle random start values.
+C. Starting value does not make a difference, and this is a special case. Hill-climbing is restricted in that it only climbs up. Here the starting value does not make any differences because the objective function has no local maxima. Start anywhere, and the right path towards the maximum is always going up, so both algorithms can handle random start values.
 
 d. Making the delta value smaller doesn't affect both algorithms in finding a solution. Because the starting value is always a integer in the domain, delta <= 1 will enable both algorithms to take steps that are small enough so that they don't skip over x=15.
-Increasing the value of delta so that delta > 1, however, will affect the possibility of finding the maximum for both algorithms, because it is possible that in one step the algorithms step over the top of the hill and ignore it. For example, when using delta = 2.0, if the initial value is an even number, the algorithms won't look at x=15 and settles for 14 as the maximum.
+Increasing the value of delta so that delta > 1, however, will affect finding the maximum for both algorithms, because it is possible that in one step the algorithms step over the �top of the hill� and ignore it. For example, when using delta = 2.0, if the initial value is an even number, the algorithms won't look at x=15 and will settle for 14 as the maximum.
 
-e.
+e. exp_schedule() is the function that sets the scheduling of the search for simulated annealing. It returns an exponential function defined by key k, and lambda = 0.005. The parameter limit regulates the time limit of the search. The exponential function provides the value for the �temperature� of the algorithm over time. Initially its value is really high, which rapidly drops, and then stabilizes slowly towards zero. And so initially the algorithm is more willing to accept �bad� states that will be helpful for looking in a broader space. As the temperature decreases, at each state, it becomes more and more unlikely to accept �bad� next states and stabilizes towards the maximum. 
+
+Exercise 2.2
+
+a. Simulated annealing outperforms hill-climbing in this problem space, consistently finding higher solution values. This is because the objective function has a local maximum at every multiple of pi. Because of hill-climbing limitation in only searching for better next states, it is restricted to looking only within the current �hill� and find the nearest local maximum; whereas simulated annealing is able to expand its search space and look for the solution more globally until time runs out.
+
+b. The starting value makes a critical difference for hill-climbing, as it only finds the local maximum of the �hill� where it started. For example, if the initial is set to 0.5, then hill-climbing can only find the highest value as solution between x=0 and x=pi. The starting value does not impact simulated annealing as much.
+
+c. Decreasing delta to < 1 harms the performance of simulated annealing because it now has to move within the search space more slowly making it harder to find a global maximum. This has no significant impact on hill climbing. Increasing delta > 1 generally enables simulated annealing to find better solutions, but depending on the initial state, hill-climbing may or may not be still restricted in its local maximum. However, when setting delta = 3.15, 3.14, or other values that approximate pi, both algorithms show a dramatic improvement by being able to jump ahead, ignoring the first few local maxima, search through a much wider domain and find very large values. 
+
+d. The objective function drops to zero at multiples of pi, and increases to a local maximum, and then drops to zero at the next multiple of pi. Because of this �hill� shape at each interval, the minimum possible solution for a given initial value is the local maximum. When the domain is unrestricted, there is no maximum possible value, because the range extends into infinity as x extends into positive or negative infinity. With delta=1, hill-climbing always finds the minimum possible value, whereas simulated-annealing typically finds a solution bigger than the minimum. 
+
+Exercise 2.3
+
+a. The random restart does not impact the solutions for the absolute value function. It does improve the performance of hill-climbing in the sine function, probably more so than simulated-annealing. This is because hill-climbing relies entirely on the starting value, so random restarts help increase its chance of finding a good solution. 
+
+b. After running sine.py with the random restart implementation a few times, I noticed that the simulated annealing average fluctuates significantly, from below 5 to above 25, whereas with the random start implementation added, hill climbing average is usually around 12 to 15. 
+
+c. It seems to me that the random restart improved hill climbing more so than it did simulated annealing, even though the latter still performs better. I think this may be because hill climbing relies more on the initial value, so with multiple restarts, it has a better chance of landing on a bigger initial value leading to a better solution. Because simulated annealing is more probabilistic, it has less room to be improved by the random restarts.
+
+Exercise 2.4
+
+a. In my opinion, local beam search makes more sense if applied to hill climbing, because it has the advantage of looking at more than one possible next states, traversing them to see which is more advantageous in the long run, thus giving hill climbing a potential to get past local maxima.
+
+b. I think the number of solutions that can be maintained given reasonable amount of memory and time constraints would be the beam width (n). With the sine objective function, since there are only two possible next states for each state, I�d speculate that the number of possible solutions is 2.
+
+c. I would modify the code so that the program still starts with one random initial value, but then it will expand on all the possible next values from the initial value, keep the n best of these possible nodes, and prune the rest. The search will them iterate over the newly expanded set of nodes, until a solution is found, or the time or memory budget has been depleted. This is different from random restart because it keeps track of different possible solutions not by restarting the search at a different initial value, but rather by preserving more than one next states during the search process. 

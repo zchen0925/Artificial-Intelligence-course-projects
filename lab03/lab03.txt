@@ -1,0 +1,40 @@
+Ziqi Chen
+Professor Vander Linden
+CS 344
+Feb 16th 2019
+	Lab03
+Exercise 3.1
+Pull sudoku.py and try running each of the algorithms on each of the predefined sudoku puzzles. Consider the following questions:
+Which algorithms work (in a timely manner) and which don’t? Explain your results in terms of the capabilities (and implementations) of the algorithms and nature of the problems.
+	Easy Sudoku: DFS ran for about 50 seconds and failed to find a solution. AC3 ran for 0.02 seconds and finds a solution. Backtracking ran for 6.10 seconds and solved it. Min_conflicts ran for 60 seconds and failed.
+	Harder configuration: AC3 ran for 0.04 secs and failed. Backtracking is essentially stuck trying to find a solution.
+	Hardest: All algorithms failed to find a solution.
+
+What effect does configuring the settings for backtracking have on the results? Try the following:
+Set the variable/value ordering (i.e., the select_unassigned_variable parameter) to first-unassigned-variable (the default) or minimum-remaining-values (i.e., mrv).
+Set the inference (i.e., the inference parameter) to forward-checking (i.e., forward_checking).
+First Unassigned Variable & Forward Checking:
+Backtracking ran for 0.39 seconds and found a solution
+Minimum Remaining Value & Forward Checking:
+Backtracking ran for 0.04 seconds and found a solution
+	The default backtracking definition has variable/value set to the first unassigned variable, and no steps selected for inference. Setting forward-checking inference actually solve the hardest level Sudoku within half a second. With forward-checking inference, setting the current variable to minimum remaining value further speeds up the algorithm - backtracking now runs for under 0.05 seconds before finding a solution.
+Which, if any, of these settings should work best for sudoku? What combination of settings actually works the best?
+Setting variable/value ordering to minimum-remaining-values actually works best for sudoku. 
+Exercise 3.2
+Pull queens.py and try running each of the algorithms with various values for n. Answer the following questions:
+How large can n get for each of the algorithms? Why?
+AC3 and DFS fails for the 4-queens problem. Min-conflict algorithm actually handles up to n = 50000 (and possibly larger n, with the sufficient CPU). On my Windows PC, backtracking can handle n = 1000 and possibly larger n on a more powerful CPU. Here, min-conflicts is the best algorithm for n-queens. It is able to resolve the largest n because it only checks three rules for constraint satisfaction for each new variable assignment, which is O(n) time. Backtracking also works but is quite slow in comparison, because it doesn’t localize the problem and needs to backtrack if the current assignment is illegal.
+What backtracking settings work the best? Why?
+Forward checking with minimum remaining value works best. 
+Adding the mrv heuristic significantly improved backtracking. In this case, mrv has a clear advantage in reducing the search space, because it easily identifies the column with least possible legal row positions and prioritizes it. Setting forward-checking inference checks if the current variable assignment will allow other unassigned variables to take consistent values. This extra pruning allows backtracking to prune back invalid partial solutions earlier on. 
+How many steps does Min-Conflicts require to do its work?
+	It seems min-conflict requires only 50 steps to consistently find a solution for n=5000.
+
+Exercise 3.3
+Review the AIMA Python implementation for constraint satisfaction problems (CSP) as needed to do the following:
+Compare and contrast the specifications for CSP (i.e., csp.CSP) and traditional problems (i.e., search.Problem). Be sure to consider the nature of states, domains, actions, results and goal tests.
+	CSP can be considered a subset of traditional problems. In traditional search, states represent the different possible steps towards a solution. Domains include legal states, and actions transition one state to another. In CSP, the central idea is more clearly defined: to find an assignment of variables that satisfy the problem constraints. This approach influences how states and actions are used, because the goal test becomes whether a variable assignment violates constraints. Thus in CSP the search can be localized to the current variable assignment, and the “path” to the goal state is not required to be memorized.
+
+
+Compare and contrast the nature of the heuristics deployed in traditional and constraint-based problem solving.
+	Traditional search heuristics generally focus on finding global extrema, whereas CSP heuristics, such as min-conflict, or minimum remaining value, tend to zero in on the current state and satisfy constraints locally. 
