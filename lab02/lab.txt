@@ -1,0 +1,11 @@
+Exercise 2.1
+a. Both hill-climbing and simulated annealing solved the problem by finding the correct global maximum.
+
+b. Hill-climbing takes less time to run than simulated annealing does. In fact, simulated annealing typically runs for 0,004 seconds, while hill-climbing usually takes 80 milliseconds to work. Overall, hill-climbing is a simpler algorithm than simulated annealing as it considers less factors at each state, causing it to work faster.
+
+c. Hill-climbing is restricted in that it only climbs up. Here the starting value for x does not make any difference, because the objective function has no local maxima. Start anywhere, and the right path towards the maximum is always going up, so both algorithms can handle random start values.
+
+d. Making the delta value smaller doesn't affect both algorithms in finding a solution. Because the starting value is always a integer in the domain, delta <= 1 will enable both algorithms to take steps that are small enough so that they don't skip over x=15.
+Increasing the value of delta so that delta > 1, however, will affect the possibility of finding the maximum for both algorithms, because it is possible that in one step the algorithms step over the top of the hill and ignore it. For example, when using delta = 2.0, if the initial value is an even number, the algorithms won't look at x=15 and settles for 14 as the maximum.
+
+e.
