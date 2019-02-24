@@ -73,7 +73,7 @@ class TravelingSalesman(Problem):
         return total
 
 if __name__ == '__main__':
-    numCities = 50
+    numCities = 60
     initial = []
     for city in range(numCities):
         initial.append(city)
