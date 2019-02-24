@@ -11,13 +11,14 @@ from threading import Timer
 import math
 import time
 
-
+debug = 0
 class TravelingSalesman(Problem):
     """
     initial: a random complete city circuit.
     map: a dictionary containing the distances between any two cities in the circuit.
     """
-    def __init__(self, initial, map):
+    def __init__(self, numCities, initial, map):
+        self.num = numCities
         self.initial = initial
         self.map = map
 
@@ -55,28 +56,46 @@ class TravelingSalesman(Problem):
         """
         :param state: the current city circuit
         :return: the sum of the travelling distances in the given state, negated in order to reflect value
+        distances should be symmetric
         """
         total = 0
-        i = 1
-        # the distances should be symmetric
-        while i < len(state):
+        for i in range(1, numCities+1):
+            first = state[i-1]
+            second = state[i]
             try:
-                total -= self.map[state[i-1], state[i]]
+                dist = self.map[(first, second)]
             except:
-                total -= self.map[state[i], state[i-1]]
-            i += 1
+                dist = self.map[(second, first)]
         # the shortest past is the best, so distances are negated to reflect this.
+            total -= dist
+            if debug:
+                print("current cities: ", first, second, "distance between cities: ", dist)
         return total
 
 if __name__ == '__main__':
-    initial = [0,1,3,2,5,4,0]
+    numCities = 50
+    initial = []
+    for city in range(numCities):
+        initial.append(city)
+    initial.append(0)
+
+    map = {}
+    for cityA in range(numCities):
+        for cityB in range(cityA+1, numCities):
+            map[cityA, cityB] = randrange(1, 20)
+
+    '''
     map = {(0,1): 1.5, (0,2): 2, (0,3): 3, (0,4): 2.5, (0,5): 3,
            (1,2): 7, (1,3): 2.4, (1,4): 4, (1,5): 3.6,
            (2,3): 5,(2,4): 4.5, (2,5): 1.5,
            (3,4): 2.5, (3,5): 3,
            (4,5): 7.5}
-    tsp = TravelingSalesman(initial, map)
+    '''
 
+    if debug:
+        print("testing the constructed map: ", map)
+
+    tsp = TravelingSalesman(numCities, initial, map)
     print("Traveling salesman problem: ",
           "\ninitial circuit: ", initial,
           "initial circuit distance: ", -tsp.value(initial))
