@@ -1,0 +1,31 @@
+Exercise 4.3.a
+
+i P(user) = 0.089; P(-user) = 0.911
+	P(User) = <0.089, 0.911>
+
+ii P(test | user) = 0.99
+
+iii P(-test | user) = 1 - P(test | user) 
+		    = 0.01
+
+iv P(test | -user) = 1 - P(-test | -user)
+		   = 1 - 0.98
+		   = 0.02
+
+v. P(user | test) = P(test | user) * P(user)/ P(test)
+		  = 0.99 * 0.089 / (0.99 * 0.089 + 0.02 * 0.911)
+		  ~= 0.829	
+
+   P(-user | test) = P(test | -user) * P(-user)/P(test)
+		   = 0.02 * 0.911 / (0.99 * 0.089 + 0.02 * 0.911)
+		   ~= 0.171
+   P(User | test) = <0.829, 0.171> 
+
+
+Exercise 4.3.b
+
+P(cancer | positive) = P(positive | cancer) * P(cancer) / P(positive)
+		     = 0.80 * 0.01 / (0.80 * 0.01 + 0.096 * 0.99)
+		     = 0.457
+P(-cancer | positive) = 1 - 0.457 = 0.543
+P(Cancer | positive) = <0.457, 0.543>

@@ -1,0 +1,9 @@
+notes regarding iPython
+
+result function line 40: creating a new state 
+new_state = state[:]
+
+def value:
+	short paths better than long paths
+
+for the scheduling problem, make the classes the variables, and the values the prof, time slots, two classrooms
