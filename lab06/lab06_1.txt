@@ -1,0 +1,32 @@
+https://developers.google.com/machine-learning/problem-framing/try-it/framing-exercise
+
+
+Exercise 1:
+We want the machine learned model to: identify Gmail emails that are important to users
+
+Exercise 2:
+Our ideal outcome is: to identify and label emails that warrant user's time, attention, and/or action.
+
+Exercise 3:
+Success Metrics: If the emails labeled as important by the model are indeed important, success metrics will 
+include: user reading the email soon, user replying to the email, the amount of time user spends in/interacting with the email.	
+
+
+Key results for the success metrics: 
+	of the emails that the user read before others (given read priority to), the model marks at least 70% of them as important
+
+	of the emails that the user interacts with significantly (composing a reply, clicking a link, or downloading an attachment, etc), the model marks at least 70% of them as important
+
+	the user reads 95% of the labeled emails before they read other unlabeled ones.
+
+	the user interacts more significantly with 95% of the labeled emails than they do with unlabeled emails.
+
+
+ML model is deemed a failure if:
+	The labeled emails receive no read priority / no greater amount of interaction than the unlabeled emails. This would mean the ML model failed to distinguish the real important ones.
+
+
+Exercise 4:
+	The output from ML will be a list of labels that indicate which emails are important.
+
+	The output will be defined as a label resulting from a computed probability of the email being important by the model. If the probability is greater than 0.90, the label will be created. 
