@@ -5,7 +5,7 @@ Professor Vander Linden
 @version: Mar 5th, 2019
 '''
 import numpy as np
-debug = 1
+debug = 0
 
 spam_corpus = [["I", "am", "spam", "spam", "I", "am"], ["I", "do", "not", "like", "that", "spamiam"]]
 ham_corpus = [["do", "i", "like", "green", "eggs", "and", "ham"], ["i", "do"]]
@@ -84,6 +84,9 @@ class spamFilter():
             if (g + b) > 1:
                 spam = max(0.01, min(0.99, (min(1, b/self.nspam) / (min(1, g/self.ngood) + min(1, b/self.nspam)))))
                 self.wordProbs[word] = spam
+            # if word does not occur in the hash tables, assign it probability value 0.4 (as suggested by the author)
+            else:
+                self.wordProbs[word] = 0.4
 
     '''
     @param: msg is a list of pre-scanned tokens
@@ -109,7 +112,7 @@ class spamFilter():
     '''
     def spamResult(self, msg, list = 1):
         self.listProbs(msg)
-        print("\nSpam probability: ", str(round(self.spamProb(msg), 3)))
+        print("Spam probability: ", str(round(self.spamProb(msg), 3)))
         if list:
             print('{:15s}{:15s}'.format("Word:","Probability:"))
             for word in msg:
@@ -153,14 +156,16 @@ if __name__ == '__main__':
         print(simpleFilter.ngood, simpleFilter.nspam, simpleFilter.goodWords, simpleFilter.badWords)
     msgs = [ham_corpus[0], ham_corpus[1], spam_corpus[0], spam_corpus[1]]
     for msg in msgs:
-        simpleFilter.spamResult(msg)
+        print("\n", msg)
+        #print the spam message probability for each list in the spam and ham
+        simpleFilter.spamResult(msg,0)
+
+    print("Get dict of word probabilities: \n", simpleFilter.wordProbs)
     test0 = ["self", "i", "spam","am", "do", "eggs", "piglet", "green"]
     test1 = ["this", "is", "spam", "spam", "am"]
     test2 = ["would", "you", "like", "some", "green", "eggs", "and", "ham", "?"]
     simpleFilter.spamResult(test0)
     simpleFilter.spamResult(test1)
     simpleFilter.spamResult(test2)
-
-        #only count words that occur 2 or more times, and create one dictionary for all these words from all the messages
 
 

@@ -19,14 +19,14 @@ cloudy = BayesNet([('Cloudy', '', 0.5),
 
 """
 d.i 
-P(cloudy) = 0.5
+P(Cloudy) = <0.5, 0.5>
 """
 print("P(Cloudy): ", enumeration_ask('Cloudy', dict(), cloudy).show_approx())
 
 """
 d.ii
     P(Sprinkler | cloudy)
-=   <0.10, 0.50>
+=   <0.10, 0.90>
 """
 print("P(Sprinkler | cloudy): ", enumeration_ask('Sprinkler', dict(Cloudy = T), cloudy).show_approx())
 
