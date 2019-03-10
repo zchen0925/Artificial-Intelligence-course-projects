@@ -1,0 +1,16 @@
+Information Gain(a) = Entropy(v) - Remainder(a)
+    InformationGain(Hungry?) = Entropy(WillWait) - Remainder(Hungry)
+    Entropy(WillWait) = -(6/12 * log(6/12) + 6/12 * log(6/12) = 1
+    Remainder(Hungry?)
+=   7/12 * Entropy(hungry, WillWait) + 5/12 * Entropy(-hungry, WillWait)
+=   7/12 * -(5/7 * log(5/7) + 2/7 * log(2/7) + 5/12 * -(1/5 * log(1/5) + 4/5 * log(4/5))
+=   0.8043
+
+    InformationGain(Hungry?)
+=   1 - 0.8043
+=   0.1957 bits
+
+Using this question will give us less information than "Patrons?",
+because that question gives us 0.54 bits of information.
+But since "Types?" only gains 0.0 bits of information, this is at least
+a better question to ask than that one.
