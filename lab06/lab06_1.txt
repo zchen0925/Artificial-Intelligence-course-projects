@@ -46,14 +46,14 @@ Exercise 7a: Binary classification, which predicts whether an email is important
 Exercise 7b: Our problem is already labeled as binary classification, but it can also be restated as unidimensional regression of the probability being important.
 
 Exercise 8: 
-Each row represents one piece of email, and inputs are data points abstracted.
-Input1: delay between email receival and read	
-Input2: amount of time user spent in the email
-Input3: a boolean variable indicating whether user replied
+Each row represents one email, and inputs are data points abstracted.
+Input1: a boolean variable indicating the presence of a specific date/time
+Input2: boolean variable indicating the presence of a contact info, such as a phone number or an email address
+Input3: the subject line
 ...
 Output: a boolean variable indicating whether email is important
 
 Exercise 9:
-The inputs are measures abstracted from user's time / actions responding to the email. I think they should be gathered throughout the day and finalized and transformed into this format by the end of a 24-hour period. The output on the training set will then be computed. Once the input is transformed and fed into the model, it should take a resonably small amount of time to produce the output label.
+The inputs are gathered by the time the email first arrives. Once the input is transformed and fed into the model, it should take a resonably small amount of time to produce the output label.
 
-Exercise 10: I think the delay between the time of email receival and the timestamp of user reading the email is one of the easiest to obtain, as well as the boolean indicator of whether user replied to the email. The amount of time user spent reading/interacting with the email is a bit less straightforward to compute, but should still be reasonable. As the model sophisticates, we can add more inputs.
+Exercise 10: I think the subject line input should be the easiest to obtain but harder to transform and feed into the model. On the other hand, the boolean indicators for a specific time or contact info that is mentioned requires more steps, including user a scanner to parse the entire body. But once obtained, it is easy to be transformed into a boolean variable. As the model sophisticates, we can add more inputs.
