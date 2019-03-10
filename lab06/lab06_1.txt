@@ -1,5 +1,7 @@
 https://developers.google.com/machine-learning/problem-framing/try-it/framing-exercise
 
+Lab06
+Ziqi Chen, Joyce Chew, Elizabeth Koning
 
 Exercise 1:
 We want the machine learned model to: identify Gmail emails that are important to users
@@ -30,3 +32,28 @@ Exercise 4:
 	The output from ML will be a list of labels that indicate which emails are important.
 
 	The output will be defined as a label resulting from a computed probability of the email being important by the model. If the probability is greater than 0.90, the label will be created. 
+
+Exercise 5:
+	The output from the ML model will be immediately made as new emails arrive (after the model trains on large batch of email samples, which will require the interaction time and respond latency to first be recorded).
+
+	The outcome will be presented as a label for each incoming email.
+
+Exercise 6: 
+	If we didn't use ML, we would employ a set of heuristics that are good indicators an email is important: for example, check if the email contains an attachment or hyperlinks, if any word is bolded or underlined, if the body contains anything that looks like a time or contact information, as well as the presence of words including "looking forward to your response", "please see/read..", and others that indicate a sense of urgency.
+
+Exercise 7a: Binary classification, which predicts whether an email is important or not.
+
+Exercise 7b: Our problem is already labeled as binary classification, but it can also be restated as unidimensional regression of the probability being important.
+
+Exercise 8: 
+Each row represents one piece of email, and inputs are data points abstracted.
+Input1: delay between email receival and read	
+Input2: amount of time user spent in the email
+Input3: a boolean variable indicating whether user replied
+...
+Output: a boolean variable indicating whether email is important
+
+Exercise 9:
+The inputs are measures abstracted from user's time / actions responding to the email. I think they should be gathered throughout the day and finalized and transformed into this format by the end of a 24-hour period. The output on the training set will then be computed. Once the input is transformed and fed into the model, it should take a resonably small amount of time to produce the output label.
+
+Exercise 10: I think the delay between the time of email receival and the timestamp of user reading the email is one of the easiest to obtain, as well as the boolean indicator of whether user replied to the email. The amount of time user spent reading/interacting with the email is a bit less straightforward to compute, but should still be reasonable. As the model sophisticates, we can add more inputs.
