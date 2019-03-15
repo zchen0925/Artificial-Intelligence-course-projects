@@ -6,7 +6,7 @@ March 15th, 2019
 
 Questions:
 
-  a.  Submit your solutions to exercises 1â€“2.
+  a.  Submit your solutions to exercises 1–2.
   
 # Your code here
 cities['Named and big'] = cities['City name'].apply(lambda city: city.startswith('San')) 

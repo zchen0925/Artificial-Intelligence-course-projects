@@ -1,15 +1,38 @@
- Exercise 7.3
+﻿ Exercise 7.3
 
 Synthetic Features & Outliers
 
 Questions:
 
    a. Submit solutions to tasks 1–3.
+	Task 1: create a room_per_person feature:
 
+	california_housing_dataframe["rooms_per_person"] = california_housing_dataframe['total_rooms'] / california_housing_dataframe['population']
 
+	calibration_data = train_model(
+  		  learning_rate=0.01,
+  		  steps=500,
+  		  batch_size=20,
+  		  input_feature="rooms_per_person"
+	)
+
+	Task 2: Scatter plot of predictions vs targets:
+
+	plt.scatter(calibration_data["predictions"], calibration_data["targets"])
+
+	Task 3: 
+
+	california_housing_dataframe["rooms_per_person"] = (california_housing_dataframe["rooms_per_person"]).apply(lambda r: min(r, 7))
+	recalibrate_data = train_model(
+    		learning_rate=0.05,
+    		steps=500,
+    		batch_size=5,
+    		input_feature="rooms_per_person")
+	plt.scatter(recalibrate_data["predictions"], recalibrate_data["targets"])
 
    b. What is the purpose of introducing synthetic features?
-
+	Synthetic features can be introduced as a ratio of two existing variables, and provide a direct handle on outliers which have a disproportional relationship between two variables of interest. 
 
    
    c. What are outliers and what is typically done with them?
+	An outlier is a data observation in a row of a dataframe that has one or more extreme values. It can be defined using being 3 standard deviations away from the mean. Typically they are not included in regression calculations because they tend to skew the regression line and make it fit less well for the majority of the data points.
