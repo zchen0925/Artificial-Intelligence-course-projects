@@ -1,0 +1,69 @@
+Exercise 7.2
+
+First Steps with Tensor Flow.
+
+Questions:
+
+   a. Compare and contrast categorical vs numerical data
+   Categorical data is data that is textual. The variable indicates the data's category membership. Examples can be state, home-style, gender, etc.
+
+   Numerical data is data that is an integer or float. It can contain numbers that are assigned to indicate category membership, in which case we need to treat it as categorical. It can also contain numbers whose values contain real meaning, such as age. We can order and manuipulate these numerically.
+
+
+   b. Submit solutions to tasks 1–2. Include your best hyper-parameter values and the resulting RMSE, but not the training output.
+   	Task 1: tweal the hyperparameters to improve loss: 
+
+		train_model(
+		    learning_rate=0.00005,
+		    steps=200,
+		    batch_size=5
+		)
+
+		Resulting RMSE:
+
+		Training model...
+		RMSE (on training data):
+		  period 00 : 225.63
+		  period 01 : 214.42
+		  period 02 : 204.04
+		  period 03 : 194.62
+		  period 04 : 189.48
+		  period 05 : 181.89
+		  period 06 : 175.66
+		  period 07 : 172.62
+		  period 08 : 170.53
+		  period 09 : 168.55
+		Model training finished.
+
+
+	Task 2: replace total_rooms with population feature:
+
+		train_model(
+		  learning_rate = 0.00005,
+		  steps = 500,
+		  batch_size=5,
+		  input_feature = "population")
+
+		 Training model...
+		RMSE (on training data):
+		  period 00 : 222.79
+		  period 01 : 209.51
+		  period 02 : 198.43
+		  period 03 : 188.92
+		  period 04 : 183.81
+		  period 05 : 179.91
+		  period 06 : 177.66
+		  period 07 : 176.61
+		  period 08 : 175.92
+		  period 09 : 176.06
+		Model training finished.
+
+
+
+
+   c. What are the hyper-parameters learned in these exercises and is there a “standard” tuning algorithm for them?
+
+   There isn't a standard tuning algorithm for finding best hyper-parameter values because they are data-dependent. 
+   	Learning rate seems to determine how fast the model adapts to the training data set, and increasing this parameter generally decreases training error. Increasing step_size seems to make the model take bigger steps in adjusting its regression values and seem to also decrease training error. Batch_size seems to have a similar effect, as very small sizes can cause instability. 
+
+

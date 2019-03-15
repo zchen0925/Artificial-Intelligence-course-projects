@@ -1,0 +1,25 @@
+CS344 Lab07
+Ziqi Chen
+March 15th, 2019
+
+ Exercise 7.1
+
+Questions:
+
+  a.  Submit your solutions to exercises 1–2.
+  
+# Your code here
+cities['Named and big'] = cities['City name'].apply(lambda city: city.startswith('San')) 
+							& (cities['Area square miles'] > 50)
+cities
+
+# Your code here
+cities.reindex(np.random.permutation([0,1,2,3,4,5]))
+
+
+  b.  Why would one use Pandas rather than the standard data manipulation features provided by NumPy?
+  Pandas provide convenient high-level data manipulation, so building entire data frames encompassing many arrays is fast with Pandas. It seems numpy provides more functions relating to lower-level computations, so combining numpy features with Pandas data structures will provide more benefits than only using numpy on the default Python data structures.
+
+
+  c.  Under what circumstances would it be useful to reorder/shuffle a Pandas DataFrame?
+  After reading on this issue a bit from Stackoverflow, I realized that Pandas DataFrame objects are commonly used in ML models. Since ML need to generalize well to data that have varying attributes, it is best to train models on data that resembles testing data. Sometimes dataframes can be built with an order on one or more variables so shuffling in this case can avoid training the model on one subset of the data that is not representative.
