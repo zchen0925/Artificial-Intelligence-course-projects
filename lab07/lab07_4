@@ -1,8 +1,69 @@
- Exercise 7.4
+﻿ Exercise 7.4
 
 Validation.
 
 Questions:
 
-    Submit solutions to tasks 1–5.
-    Give a one-paragraph summary of what you learned about using training, validation and testing datasets.
+   a. Submit solutions to tasks 1–5.
+	Task 1: When looking at the two tables, I noticed that the median income is not on a dollar unit but a different scale. This will require additional steps of unit conversion when we use the model predictions.
+
+	Task 2: The validation set seems to only sample cities within longtitude -124 ~ -121, which excludes many Californian cities outside of this range. 
+	The target distribution of median house value should have comparable intervals for the training and validation data sets. However, the strange thing is that each percentile is lower for the training set, but the min and max are the same for both data sets.
+
+	Task 3: After examining the code, I realized that the original dataset was not shuffled to distribute the longtitude feature evenly between training and validation. I needed to un-comment the following code that randomizes the dataset:
+	california_housing_dataframe = california_housing_dataframe.reindex(np.random.permutation(california_housing_dataframe.index))
+
+	Task 4: 
+Defining the input and predictions:
+
+training_input_fn = lambda: my_input_fn(
+      training_examples, 
+      training_targets["median_house_value"], 
+      batch_size=batch_size)
+predict_training_input_fn = lambda: my_input_fn(
+      training_examples, 
+      training_targets["median_house_value"], 
+      num_epochs=1, 
+      shuffle=False)
+predict_validation_input_fn = lambda: my_input_fn(
+      validation_examples, validation_targets["median_house_value"], 
+      num_epochs=1, 
+      shuffle=False)
+	
+Hyperparameters:
+linear_regressor = train_model(
+    learning_rate=0.00003,
+    steps=500,
+    batch_size=5,
+    training_examples=training_examples,
+    training_targets=training_targets,
+    validation_examples=validation_examples,
+    validation_targets=validation_targets)
+
+
+Task 5:
+california_housing_test_data = pd.read_csv("https://download.mlcc.google.com/mledu-datasets/california_housing_test.csv", sep=",")
+
+test_examples = preprocess_features(california_housing_test_data)
+test_targets = preprocess_targets(california_housing_test_data)
+
+predict_test_input_fn = lambda: my_input_fn(
+      test_examples, 
+      test_targets["median_house_value"], 
+      num_epochs=1, 
+      shuffle=False)
+
+test_predictions = linear_regressor.predict(input_fn=predict_test_input_fn)
+test_predictions = np.array([item['predictions'][0] for item in test_predictions])
+
+root_mean_squared_error = math.sqrt(
+    metrics.mean_squared_error(test_predictions, test_targets))
+
+print("Final RMSE (on test data): %0.2f" % root_mean_squared_error)
+
+
+Final RMSE (on test data): 160.17
+
+   b. Give a one-paragraph summary of what you learned about using training, validation and testing datasets.
+	How the datasets are set up is central to ML model training. Debugging models more often than not means looking at datasets than at the model definition. Training and validation datasets should be representative of the population they came from, and from this exercise I've seen the importance of randomized sampling in ensuring a good split between training and validation. The testing dataset comes from a different population, and it serves to test the ML model's ability to generalize to the real world with situations set up differently than the training sets. In this exercise, after randomizing the training population, the model was validated by the validation dataset, and it also predicted well for the testing dataset.
+	
