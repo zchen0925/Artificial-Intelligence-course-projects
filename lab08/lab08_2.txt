@@ -1,0 +1,8 @@
+Questions:
+
+a. They recommend FTRL for L1 optimization, but the code specifies the same rate (learning_rate) for all runs. How is FTRL managing the learning rate?
+What good does the bucketing/binning do?
+
+
+
+b. Submit your solutions to tasks 1–2. Did you find their task 1 bucketing to make sense? Identify one unique feature cross for task 2 and explain how it could be useful.

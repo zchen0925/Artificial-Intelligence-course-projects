@@ -1,0 +1,48 @@
+a. What does the Pearson correlation coefficient measure? Identify one example value from the correlation table you compute and explain why it makes sense.
+
+The Pearson correlation coefficient measures the degree of linear correlation between two variables in a distribution. It can take on values in the range from -1 to 1, where 1 is complete positive linear correlation, 0 is no correlation, and -1 negative linear correlation. From the correlation table, I found that "median_income" has the highest Pearson value with the target which is "median_house_value", a correlation factor of 0.7. This makes sense because income largely determines the kind of house you can afford, so it would be highly positively correlated.  
+
+b. Submit your solutions to tasks 1–2. Include the features you selected for task 1 and the synthetic features you developed for task 2; include the final RMS errors but not the training output. Did you beat the Google-provided baselines?
+
+Task 1: 
+minimal_features = ["median_income", "rooms_per_person", "latitude"
+]
+I chose these three features because they had the highest correlation values with the target. 
+The final RMS error: 
+RMSE (on training data):
+  period 00 : 165.42
+  period 01 : 123.83
+  period 02 : 117.81
+  period 03 : 116.35
+  period 04 : 116.09
+  period 05 : 115.27
+  period 06 : 114.79
+  period 07 : 114.24
+  period 08 : 113.67
+  period 09 : 113.05
+
+Task 2:
+I created a synthetic feature called "relative_lat" which is the latitude relative to San Francisco.
+training_examples["relative_lat"] = training_examples["latitude"]-38
+validation_examples["relative_lat"] = validation_examples["latitude"]-38
+
+
+updated_features = [
+  "median_income",
+  "rooms_per_person",
+  "relative_lat",
+]
+
+minimal_training_examples = training_examples[updated_features]
+minimal_validation_examples = validation_examples[updated_features]
+
+_ = train_model(
+    learning_rate=0.01,
+    steps=500,
+    batch_size=5,
+    training_examples=minimal_training_examples,
+    training_targets=training_targets,
+    validation_examples=minimal_validation_examples,
+    validation_targets=validation_targets)
+
+This generated a final RSME of 125.07, which is larger than using the original latitude feature. However, it is more efficient than binning latitudes, which the default solution did, yielding a final RSME of 140.90. 

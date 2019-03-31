@@ -1,0 +1,16 @@
+a. Compare and contrast Seaborn vs. MatPlotLib.
+
+
+
+b. How big is this dataset and does it seem of an appropriate size for this problem?
+
+
+c. Explain what the prescribed normalization of the data does.
+
+
+
+d. Is this an example of a linear regression model?
+
+
+
+e. In their conclusion, they claim that smaller datasets “prefer” smaller networks. Do you agree? Explain your answer.
