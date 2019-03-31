@@ -1,16 +1,26 @@
 a. Compare and contrast Seaborn vs. MatPlotLib.
-
+Both are visualization libraries in Python. Seaborn is built on top of MatPlotLib. It seems to be more high-level than MatPlotLib, and can make
+plotting pretty convenient. MatPlotLib has more "bare bones" options to 
+manipulate plots and offers more detailed command options.
 
 
 b. How big is this dataset and does it seem of an appropriate size for this problem?
-
+This dataset is 314 x 8 (prior to one-hotting), with 314 data observations, 7 training features, and one target feature. Compared to models we worked with
+in TensorFlow, this one is a bit small, so the training and validation sets
+could be smaller but still work.
 
 c. Explain what the prescribed normalization of the data does.
-
-
+The prescribed normalization transforms a datapoint in a variable column
+into a value that is how many standard deviations (of the variable's distribution) away is the original data point from the mean. 
+Generally, continuous values should have normal distributions. 
+This means around 99% of the data should fall within 3 standard deviations.
+Normalization, in general, can not only help put all variables on the same scale,
+making it easy for the model to learn, but also help pick out outliers quickly.
 
 d. Is this an example of a linear regression model?
-
-
+I would say this is not a linear regression model. Because it uses two dense layers with the relu activation function (which is non-linear, as per our lecture), the output would not be linearly correlated with the inputs.
 
 e. In their conclusion, they claim that smaller datasets “prefer” smaller networks. Do you agree? Explain your answer.
+I would agree with their claim, because with smaller datasets, there is less
+there for the network to learn. Fitting a large neural net to the smaller dataset might result in overfitting and causing it to fail to generalize.
+Smaller networks are forced to learn the "gist" instead of all details which leave room for generalization. 
