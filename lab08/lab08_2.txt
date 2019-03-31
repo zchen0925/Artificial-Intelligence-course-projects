@@ -3,6 +3,57 @@ Questions:
 a. They recommend FTRL for L1 optimization, but the code specifies the same rate (learning_rate) for all runs. How is FTRL managing the learning rate?
 What good does the bucketing/binning do?
 
+I learned from the intro to FTRL that it scales the learning rate differently for different coefficients. Upon examining the code, it seems even though the same learning rate is set across all runs, it is regulated with an additional "gradient clipping":
+  my_optimizer = tf.train.FtrlOptimizer(learning_rate=learning_rate)
+  my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimizer, 5.0)
 
+It would seem that this will keep gradients that increase rapidly at bay, keeping pace with the gradients that grow more slowly, so achieving the differential scaling effect.
+
+Bucketing/binning groups can help reduce observation errors of individual discrete values and label it with a representative value of the entire "bucket", this allows the model to learn faster. 
 
 b. Submit your solutions to tasks 1–2. Did you find their task 1 bucketing to make sense? Identify one unique feature cross for task 2 and explain how it could be useful.
+
+Task1: As far as I observed, some of the variables in the california housing dataframe were more fitted for bucketing than others. Latitude and Longtitude are two good examples that stood to benefit because it can be more representative of geographic regions that span several degrees. On the other hand, I'm not sure if room_per_person needs to be bucketed. Because most of the values are pretty small, so grouping them might cause the model to be insensitive to the small but significant variations.
+
+Code: 
+ #
+  # YOUR CODE HERE: bucketize the following columns, following the example above:
+  #
+  bucketized_latitude = tf.feature_column.bucketized_column(
+    latitude, boundaries=get_quantile_based_boundaries(
+      training_examples["longitude"], 10))
+  bucketized_housing_median_age = tf.feature_column.bucketized_column(
+    housing_median_age, boundaries=get_quantile_based_boundaries(
+      training_examples["longitude"], 7))
+  bucketized_median_income = tf.feature_column.bucketized_column(
+    median_income, boundaries=get_quantile_based_boundaries(
+      training_examples["longitude"], 7))
+  bucketized_rooms_per_person = tf.feature_column.bucketized_column(
+    rooms_per_person, boundaries=get_quantile_based_boundaries(
+      training_examples["longitude"], 7))
+
+Final RSME outcome: 
+Training model...
+RMSE (on training data):
+  period 00 : 168.45
+  period 01 : 142.15
+  period 02 : 126.76
+  period 03 : 118.06
+  period 04 : 113.99
+  period 05 : 112.43
+  period 06 : 111.61
+  period 07 : 111.04
+  period 08 : 110.64
+  period 09 : 110.29
+
+Although the final result is not significantly different compared to without the binning (110.40), the RMSE decreases more consistently with binning.
+
+Task2: 
+In the code, I used the bucketized_longitude x bucketized_latitude feature cross to represent geographical blocks. Another feature cross, population x median_income might also be particularly helpful to predicting median house value. This is because commonly cities with more population and a higher median income tend to be more expensive to live in. So these two features crossed can send a stronger signal than them independently. 
+
+Code: 
+# YOUR CODE HERE: Make a feature column for the long_x_lat feature cross
+  long_x_lat = tf.feature_column.crossed_column(
+  set([bucketized_longitude, bucketized_latitude]), hash_bucket_size=1000) 
+
+Final RMSE: 81.16
