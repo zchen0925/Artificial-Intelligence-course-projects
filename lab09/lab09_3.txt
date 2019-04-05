@@ -1,0 +1,23 @@
+Questions:
+
+Exercise 1:
+i. What’s size of the cats/dogs datasets?
+
+
+
+ii. How does the first convnet compare with the one we did in class.
+
+
+
+iii. Can you see any interesting patterns in the intermediate representations?
+
+
+Exercise 2:
+i. What is data augmentation?
+
+
+ii. Report your best results and the hyperparameters you used to get them.
+
+
+
+You can skip Exercise 3.

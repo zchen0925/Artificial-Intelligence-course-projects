@@ -1,0 +1,16 @@
+Questions:
+
+Why are we regularizing with respect to sparsity?
+When building a model using cross features, there might be resulting combinations that rarely come up in real data. The model will create a weight for all these cross features, including the super rare ones, and this will not only take up big chunks of memory but also result in overfitting. In order to keep the model size manageable and the model generalizable, we have to regularize.
+
+
+How does L1 regularization increase sparsity?
+L1 regularization penalizes the sum of the absolute values of the weights of features. This encourages the model to be sparce and drive a lot of the coefficient weights to zero. 
+
+Task 1: Here, just report the best log loss value / model size you can get and what gamma value you used to get them.
+Best Log Loss: 0.23
+Parameter values:
+    learning_rate=0.1,
+    regularization_strength=0.5,
+    steps=500,
+    batch_size=100,
