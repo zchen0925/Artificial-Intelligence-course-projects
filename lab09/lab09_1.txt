@@ -1,11 +1,23 @@
 a. How does the linear regression approach to the problem fare?
-The linear regression approach 
+The linear regression approach is not the best because it uses L2 Loss function which cannot fully differentiate between a false positive of 0.9 and 0.99.  
 
 b. Task 1: Compare and contrast L2 Loss vs LogLoss.
-LogLoss is heavily concentrated around 0 ~ 0.1. This indicates improved accuracy compared to L2 Loss. 
+Compared to L2 Loss, LogLoss serves more severe penalties to wrong predictions. For example, if the true label is 1 and the predicted probability is 0.3 vs 0.28, the difference will be a lot more differentiated by LogLoss than by L2 Loss.
 
 c. Task 2: Explain how the logistic regression fares compared to the linear regression.
-The logistic regression certainly outdoes the linear regression. 
-
+The logistic regression outdoes the linear regression, I think one of the major reasons being that the log regression stays near 0 and 1 much longer than a linear regression, so it is more "biased" towards giving an observation one label or another. It also has an advantage in using the LogLoss function compared to the L2 Loss used by a linear regression.
 
 d. Task 3: Here, just report the best values you can achieve for AUC/accuracy and what hyperparameters you used to get them.
+AUC on validation set: 0.78
+Accuracy on validation set: 0.77
+
+Hyperparameters: 
+
+linear_classifier = train_linear_classifier_model(
+    learning_rate=0.000004,
+    steps=2000,
+    batch_size=100,
+    training_examples=training_examples,
+    training_targets=training_targets,
+    validation_examples=validation_examples,
+    validation_targets=validation_targets)
