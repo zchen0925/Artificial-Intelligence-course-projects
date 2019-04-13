@@ -2,7 +2,8 @@ a. How does the linear regression approach to the problem fare?
 The linear regression approach 
 
 b. Task 1: Compare and contrast L2 Loss vs LogLoss.
-LogLoss is heavily concentrated around 0 ~ 0.1. This indicates improved accuracy compared to L2 Loss. 
+LogLoss penalized much more harshly for misclassifications than L2 does. 
+
 
 c. Task 2: Explain how the logistic regression fares compared to the linear regression.
 The logistic regression certainly outdoes the linear regression. 
