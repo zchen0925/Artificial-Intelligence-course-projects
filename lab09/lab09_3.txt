@@ -2,22 +2,33 @@ Questions:
 
 Exercise 1:
 i. What’s size of the cats/dogs datasets?
-
-
+The full dataset size is 25000, and the subset used in the exercise is 2000 pictures.
 
 ii. How does the first convnet compare with the one we did in class.
-
-
+This convnet has more layers than the one we did in class. The class convnet stacks two layers of convolution and maxpooling, whereas this one stacks three layers, adding another layer of 16 filters before the 32 and 64 that both networks use. 
+This convnet also does binary classification compared to the class example that does unary classification. Therefore it also has an additional dense layer using the relu transformation to output a probability between 0 and 1. 
 
 iii. Can you see any interesting patterns in the intermediate representations?
+Each new max_pooling layer doubles in its output the size of its input. The features become more sparce down the neural layers. Overall, it seems to me that the edge of the cat's silouette is also increasingly distilled. This could be that the outline of cat's ears is recognized by the network as a unique feature set.  
 
 
 Exercise 2:
 i. What is data augmentation?
-
+Data augmentation is a data preprocessing technique that randomly transforms the data in a few different ways so as to prevent overfitting, because this will increase the number of unique data observations in a limited data set, and prevent the model from seeing one observation twice. In this example, we are doing tricks like horizontal flip, rotation, and height shift to the images to produce recognizable but different variations of the same picture, before feeding it to the neural network.
 
 ii. Report your best results and the hyperparameters you used to get them.
+Epoch 30/30
+50/50 [==============================] - 5s 97ms/step - loss: 0.5175 - acc: 0.7660
+ - 20s - loss: 0.4844 - acc: 0.7745 - val_loss: 0.5175 - val_acc: 0.7660
 
 
+Hyperparameters:
+history = model.fit_generator(
+      train_generator,
+      steps_per_epoch=80,
+      epochs=30,
+      validation_data=validation_generator,
+      validation_steps=50,
+      verbose=2)
 
 You can skip Exercise 3.
