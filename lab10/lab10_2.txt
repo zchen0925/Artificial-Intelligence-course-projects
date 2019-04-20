@@ -1,0 +1,106 @@
+Exercise 10.2
+Improving Neural Net Performance
+
+Questions:
+
+a. What does AdaGrad do to boost performance?
+AdaGrad is an optimizer that modifies the learning rate adaptively for each coefficient in a model, monotonically lowering the effective learning rate. This optimizer works great for data with features that have different scales.
+
+b. Tasks 1–3: Report your best hyperparameter settings and their resulting performance.
+Task 1:
+Applying linear scaling to the examples:
+
+def normalize_linear_scale(examples_dataframe):
+  """Returns a version of the input `DataFrame` that has all its features normalized linearly."""
+  processed_features = pd.DataFrame()
+  processed_features["latitude"] = linear_scale(examples_dataframe["latitude"])
+  processed_features["longitude"] = linear_scale(examples_dataframe["longitude"])
+  processed_features["housing_median_age"] = linear_scale(examples_dataframe["housing_median_age"])
+  processed_features["total_rooms"] = linear_scale(examples_dataframe["total_rooms"])
+  processed_features["total_bedrooms"] = linear_scale(examples_dataframe["total_bedrooms"])
+  processed_features["population"] = linear_scale(examples_dataframe["population"])
+  processed_features["households"] = linear_scale(examples_dataframe["households"])
+  processed_features["median_income"] = linear_scale(examples_dataframe["median_income"])
+  processed_features["rooms_per_person"] = linear_scale(examples_dataframe["rooms_per_person"])
+  return processed_features
+
+Final RMSE: (training) 71.06 (validation) 70.20
+
+Task 2:
+
+AdaGrad:
+_, adagrad_training_losses, adagrad_validation_losses = train_nn_regression_model(
+    my_optimizer=tf.train.AdagradOptimizer(learning_rate=0.2),
+    steps=1000,
+    batch_size=100,
+    hidden_units=[10, 10],
+    training_examples=normalized_training_examples,
+    training_targets=training_targets,
+    validation_examples=normalized_validation_examples,
+    validation_targets=validation_targets)
+
+Final RMSE (on training data):   66.37
+Final RMSE (on validation data): 66.14
+
+Adam:
+_, adam_training_losses, adam_validation_losses = train_nn_regression_model(
+    my_optimizer=tf.train.AdamOptimizer(learning_rate=0.005),
+    steps=1000,
+    batch_size=200,
+    hidden_units=[10, 10],
+    training_examples=normalized_training_examples,
+    training_targets=training_targets,
+    validation_examples=normalized_validation_examples,
+    validation_targets=validation_targets)
+
+Final RMSE (on training data):   67.90
+Final RMSE (on validation data): 67.49
+
+Task 3:
+
+I used the z_score normalization for the example data features.
+def normalize(examples_dataframe):
+  """Returns a version of the input `DataFrame` that has all its features normalized."""
+  #
+  # YOUR CODE HERE: Normalize the inputs.
+  #
+  processed_features = pd.DataFrame()
+
+  processed_features["households"] = z_score_normalize(examples_dataframe["households"])
+  processed_features["median_income"] = z_score_normalize(examples_dataframe["median_income"])
+  processed_features["total_bedrooms"] = z_score_normalize(examples_dataframe["total_bedrooms"])
+  
+  processed_features["latitude"] = z_score_normalize(examples_dataframe["latitude"])
+  processed_features["longitude"] = z_score_normalize(examples_dataframe["longitude"])
+  processed_features["housing_median_age"] = z_score_normalize(examples_dataframe["housing_median_age"])
+
+  processed_features["population"] = z_score_normalize(clip(examples_dataframe["population"], 0, 5000))
+  processed_features["rooms_per_person"] = z_score_normalize(clip(examples_dataframe["rooms_per_person"], 0, 5))
+  processed_features["total_rooms"] = z_score_normalize(clip(examples_dataframe["total_rooms"], 0, 10000))
+
+  return processed_features
+
+normalized_dataframe = normalize(preprocess_features(california_housing_dataframe))
+normalized_training_examples = normalized_dataframe.head(12000)
+normalized_validation_examples = normalized_dataframe.tail(5000)
+
+_ = train_nn_regression_model(
+    my_optimizer=tf.train.GradientDescentOptimizer(learning_rate=0.005),
+    steps=10000,
+    batch_size=100,
+    hidden_units=[10, 10],
+    training_examples=normalized_training_examples,
+    training_targets=training_targets,
+    validation_examples=normalized_validation_examples,
+    validation_targets=validation_targets)
+
+Final RMSE (on training data):   61.58
+Final RMSE (on validation data): 61.72
+
+c. Optional Challenge: You can skip this exercise.
+
+
+
+
+
+Save your answers in lab10_2.txt.

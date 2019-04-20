@@ -1,0 +1,49 @@
+Exercise 10.3
+Classifying Handwritten Digits with Neural Networks
+
+Questions:
+
+a. Task 1: What does the confusion matrix show for this example?
+The confusion matrix shows the likelihood that one hand-written digit is mistaken by the neural net for another. It shows that digits are correctly labeled most of the time, indicated by the dark diagonal line, but sometimes one digit can be mistaken for another, such as 4 being labeled as 9, or 5 labeled as 3.
+classifier = train_linear_classification_model(
+             learning_rate=0.05,
+             steps=500,
+             batch_size=10,
+             training_examples=training_examples,
+             training_targets=training_targets,
+             validation_examples=validation_examples,
+             validation_targets=validation_targets)
+
+final accuracy: 0.90
+
+b. Task 2: How does the TensorFlow network architecture differ from the Keras example given in class? Report any improvements you can make over the baseline testset accuracy for this task.
+It seems the TensorFlow network is using the AdaGrad optimizer with the DNNClassifier, which is a different approach than Keras. 
+
+I updated the hyperparameters on training the model:
+classifier = train_nn_classification_model(
+    learning_rate=0.07,
+    steps=5000,
+    batch_size=50,
+    hidden_units=[100, 100],
+    training_examples=training_examples,
+    training_targets=training_targets,
+    validation_examples=validation_examples,
+    validation_targets=validation_targets)
+
+Then changed the batch_size on the test set:
+predict_test_input_fn = create_predict_input_fn(
+    test_examples, test_targets, batch_size=200)
+
+test_predictions = classifier.predict(input_fn=predict_test_input_fn)
+test_predictions = np.array([item['class_ids'][0] for item in test_predictions])
+  
+accuracy = metrics.accuracy_score(test_targets, test_predictions)
+print("Accuracy on test data: %0.2f" % accuracy)
+
+This allowed the model to reach an accuracy of 0.96 on test data.
+
+c. Task 3: What differences can you see between the visualizations for 10 steps and 1000 steps?
+The visualization for learning weights is essentially randomly scattered pixels for almost all the nodes. Step = 10 appears to be too small for the model to effectively learn features. At step = 1000, the visualization shows strong convergence for the majority of the nodes, giving substantial weight to a dot or a line across the pixels and ignoring other features. However, some nodes appear to be random noise or being ignored by higher layers.
+
+
+Save your answers in lab10_3.txt.

@@ -1,0 +1,41 @@
+Exercise 10.4
+Intro to Sparse Data and Embeddings
+
+Questions:
+
+a. Task 1: Is a linear model ever preferable to a deep NN model?
+
+
+
+
+
+b. Task 2: Does the NN model do better than the linear model?
+
+
+
+
+
+c. Task 3: Do embeddings do much good for sentiment analysis tasks?
+
+
+
+
+
+d. Tasks 4–5: Name two words that have similar embeddings and explain why that makes sense.
+
+
+
+
+
+e. Task 6: Report your best hyper-parameters and their resulting performance.
+
+
+
+
+
+f. Optional Discussion: You can skip this section.
+
+
+
+
+Save your answers in lab10_4.txt.
