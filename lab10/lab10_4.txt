@@ -4,38 +4,46 @@ Intro to Sparse Data and Embeddings
 Questions:
 
 a. Task 1: Is a linear model ever preferable to a deep NN model?
-
-
-
-
+A linear model can be preferable to a deep NN model if the relationship between features and the target can be expressed linearly. Then, the linear model would require less data to be well-trained, and it has less of a risk of overfitting because of its simplicity. If the additional complexity provided by NN isn't needed, then linear model has an edge because of its speed.
 
 b. Task 2: Does the NN model do better than the linear model?
-
-
-
-
+The linear model has an accuracy of 0.7854 on training set, and 0.7852 on test set. The NN model has an accuracy of 0.72 on training, and 0.92 on test. From these metrics, the NN model is better suited to generalize, so it is better than the linear model.
 
 c. Task 3: Do embeddings do much good for sentiment analysis tasks?
-
-
-
-
+While the embedding improved the accuracy on the training set to 0.78, the test set accuracy actually dropped to 0.782. This could be a result of the embeddings having only a dimension of 2, which from the tutorial notes, seemed to have the effect of grouping several words into one dimension, and some of the nuances of each word could be lost in reducing the dimensions of the vocabulary. Embedding the feature column with higher dimensions can produce a benefit.
 
 d. Tasks 4–5: Name two words that have similar embeddings and explain why that makes sense.
-
-
-
-
+Beautiful and fantastic are two words that were embedded similarly. This is intuitive because both indicate a sense of awe and appreciation which would be a good sign the rater enjoyed the movie and gave it a good rating.
 
 e. Task 6: Report your best hyper-parameters and their resulting performance.
-
-
-
-
+I used the Adam optimizer with learning rate = 0.05, and increased the hidden units to [32, 10]. This yielded the following result:
+Training set metrics:
+loss 3.9131155
+accuracy_baseline 0.5
+global_step 1000
+recall 0.96272
+auc 0.9885078
+prediction/mean 0.52928054
+precision 0.9450291
+label/mean 0.5
+average_loss 0.15652461
+auc_precision_recall 0.98864174
+accuracy 0.95336
+---
+Test set metrics:
+loss 7.4387603
+accuracy_baseline 0.5
+global_step 1000
+recall 0.8908
+auc 0.9483984
+prediction/mean 0.5256577
+precision 0.8726489
+label/mean 0.5
+average_loss 0.2975504
+auc_precision_recall 0.94558907
+accuracy 0.8804
 
 f. Optional Discussion: You can skip this section.
-
-
 
 
 Save your answers in lab10_4.txt.
