@@ -1,0 +1,71 @@
+Read LPN! Chapter 2 and do the following exercises:
+
+From LPN!
+Exercise 2.1, questions 1, 2, 8, 9, 14 - Give the necessary instantiations.
+1.bread  =  bread. 
+This unifies because both are the same atom.
+
+2. ’Bread’  =  bread
+This does not unify because both are symbols but Bread is a different atom than bread. Cases don't match.
+
+8. food(X)  =  food(bread)
+Yes, this will unify with X instantiated to X=bread. This is because of claus2 - variables get instantiated to any value.
+
+9. food(bread,X)  =  food(Y,sausage)
+Yes, this unifies with Y instantiated to bread and X instantiated to sausage.
+
+14. meal(food(bread),X)  =  meal(X,drink(beer))
+No. In the left-hand term, Prolog tries to achieve unification by instantiating X to drink(beer), and when it works through to the right, it cannot instantiated X to anything else which is what the right-side requires, so Prolog will halt and return false.
+
+Exercise 2.2 - Explain how Prolog does its unification and reasoning. If you have issues getting the results you’d expect, are there things you can do to game the system?
+
+KB:
+   house_elf(dobby). 
+   witch(hermione). 
+   witch(’McGonagall’). 
+   witch(rita_skeeter). 
+   magic(X):-  house_elf(X). 
+   magic(X):-  wizard(X). 
+   magic(X):-  witch(X).
+
+
+Which of the following queries are satisfied? Where relevant, give all the variable instantiations that lead to success.
+
+?-  magic(house_elf).
+This will require house_elf(house_elf) (or wizard(house_elf) / witch(house_elf)).
+
+?-  wizard(harry).
+This query will return false, because this fact was not included in the knowledge base.
+
+?-  magic(wizard).
+This will require wizard(wizard) to satisfy.
+
+?-  magic(’McGonagall’).
+Yes, this query will be satisfied, because of the fact witch('McGonagall') and the rule magic(X):-  witch(X). X will be instantiated to 'McGonagall'.
+
+?-  magic(Hermione).
+In order for this query to satisfy, it requires instantiating Hermione to hermione, dobby, 'McGonagall', or rita_skeeter. 
+
+Draw the search tree for the query magic(Hermione).
+	?- magic(Hermione)
+Hermione = _G34
+	?- house_elf(_G34); wizard(_G34); witch(_G34)
+_G34 = hermione
+	witch(hermione)
+	magic(hermione)
+_G34 = dobby
+	house_elf(dobby)
+	magic(dobby)
+_G34 = 'McGonagall'
+	witch('McGonagall')
+	magic('McGonagall')
+_G34 = rita_skeeter
+	witch(rita_skeeter)
+	magic(rita_skeeter)
+
+
+c. Does inference in propositional logic use unification? Why or why not?
+Yes, prolog uses unification to search which two terms would unify for a query, and this resolves inference.
+
+d. Does Prolog inferencing use resolution? Why or why not?
+Yes, Prolog inferencing uses resolution. I could have missed a direct mention of resolution in the textbook, so I found another source that explained how Prolog uses unification of symbols within resolution as its principle of inference.
