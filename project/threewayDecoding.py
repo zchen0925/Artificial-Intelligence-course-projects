@@ -17,7 +17,8 @@ from nilearn.plotting import plot_stat_map, show
 feature_selection = SelectPercentile(f_classif, percentile=5)
 
 lin_svc = LinearSVC()
-lin_svc.fit(FHC, conditions_threeway)
+facecathouse_svc = Pipeline([('anova', feature_selection), ('svc', lin_svc)])
+facecathouse_svc.fit(FHC, conditions_threeway)
 
 #cited from https://scikit-learn.org/stable/modules/svm.html#multi-class-classification
 # LinearSVC(C=1.0, class_weight=None, dual=True, fit_intercept=True,
@@ -46,8 +47,11 @@ def modelAccuracy(model, X, conditions, groups):
     print("Classification accuracy: %.4f / Chance level: %f" %
           (classification_accuracy, 1. / len(conditions.unique())))
 
-# print("Linear model on face vs cat vs house: ")
-# modelAccuracy(lin_svc, FHC, conditions_threeway, session_threeway)
+print("Linear model on face vs cat vs house: ")
+modelAccuracy(facecathouse_svc, FHC, conditions_threeway, session_threeway)
+
+cross_validation = cross_val_score(facecathouse_svc, FHC, conditions_threeway, cv = 10, verbose = 1)
+print("Linear kernel model cross validation score: ", cross_validation.mean())
 
 def visualizeResults(kernel, masker, func_filename = haxby_dataset.func[0]):
     coef = kernel.coef_
@@ -66,5 +70,4 @@ def visualizeResults(kernel, masker, func_filename = haxby_dataset.func[0]):
 #    weight_img.to_filename('haxby_face_vs_house.nii')
     show()
 
-visualizeResults(lin_svc, masker)
-#TO DO: figure out how to print model accuracy
+#visualizeResults(lin_svc, masker)
