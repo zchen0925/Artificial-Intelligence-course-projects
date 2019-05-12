@@ -50,8 +50,9 @@ def modelAccuracy(model, X, conditions, groups):
 print("Linear model on face vs cat vs house: ")
 modelAccuracy(facecathouse_svc, FHC, conditions_threeway, session_threeway)
 
-cross_validation = cross_val_score(facecathouse_svc, FHC, conditions_threeway, cv = 10, verbose = 1)
-print("Linear kernel model cross validation score: ", cross_validation.mean())
+for cv in range(2, 10, 1):
+    cross_validation = cross_val_score(facecathouse_svc, FHC, conditions_threeway, cv = cv, verbose = 1)
+    print("Linear kernel model cross validation score: ", cross_validation.mean())
 
 def visualizeResults(kernel, masker, func_filename = haxby_dataset.func[0]):
     coef = kernel.coef_

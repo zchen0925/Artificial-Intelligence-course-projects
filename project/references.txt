@@ -1,4 +1,4 @@
-https://groups.google.com/forum/?fromgroups#!forum/nipy-user
+https://practical-neuroimaging.github.io/day0.html
 
 
 https://www.pycon.it/media/conference/slides/explore-the-brain-with-nilearn.pdf
@@ -6,3 +6,5 @@ https://www.pycon.it/media/conference/slides/explore-the-brain-with-nilearn.pdf
 https://stats.stackexchange.com/questions/142325/svm-three-way-classification
 
 https://stats.stackexchange.com/questions/21465/best-way-to-perform-multiclass-svm
+
+https://arxiv.org/pdf/1606.02840.pdf
