@@ -25,9 +25,9 @@ feature_selection = SelectPercentile(f_classif, percentile=5)
 lin_svc = LinearSVC()
 facecathouse_svc = Pipeline([('anova', feature_selection), ('svc', lin_svc)])
 facecathouse_svc.fit(FHC, conditions_threeway)
-
-another_svc = OneVsRestClassifier(Pipeline([('anova', SelectKBest(f_classif, k=500)), ('svc', SVC(kernel = 'linear'))]))
-another_svc.fit(FHC, conditions_threeway)
+#
+# another_svc = OneVsRestClassifier(Pipeline([('anova', SelectKBest(f_classif, k=500)), ('svc', SVC(kernel = 'linear'))]))
+# another_svc.fit(FHC, conditions_threeway)
 
 # Output accuracy
 # Define the cross-validation scheme used for validation.
@@ -46,19 +46,22 @@ def modelAccuracy(model, X, conditions, groups):
     print("Classification accuracy: %.4f / Chance level: %f" %
           (classification_accuracy, 1. / len(conditions.unique())))
 
-print("Linear model on face vs cat vs house: ")
+print("Support Vector Model with linear kernel cross validation score accuracy: ")
 modelAccuracy(facecathouse_svc, FHC, conditions_threeway, session_threeway)
 
-print("The second model on face vs cat vs house: ")
-modelAccuracy(another_svc, FHC, conditions_threeway, session_threeway)
+# print("The second model on face vs cat vs house: ")
+# modelAccuracy(another_svc, FHC, conditions_threeway, session_threeway)
 
-for cv in range(2, 10, 1):
-    cross_validation = cross_val_score(facecathouse_svc, FHC, conditions_threeway, cv = cv, verbose = 1)
-    print("Linear kernel model cross validation score: ", cross_validation.mean())
+cross_validation = cross_val_score(facecathouse_svc, FHC, conditions_threeway, cv = 4, verbose = 1)
+print("Support Vector Model with linear kernel cross validation score: ", cross_validation.mean())
 
-for cv in range(2, 10, 1):
-    cross_validation = cross_val_score(facecathouse_svc, FHC, conditions_threeway, cv = cv, verbose = 1)
-    print("The other one-vs-rest validation score: ", cross_validation.mean())
+# for cv in range(2, 10, 1):
+#     cross_validation = cross_val_score(facecathouse_svc, FHC, conditions_threeway, cv = cv, verbose = 1)
+#     print("Support Vector Model with linear kernel cross validation score: ", cross_validation.mean())
+
+# for cv in range(2, 10, 1):
+#     cross_validation = cross_val_score(facecathouse_svc, FHC, conditions_threeway, cv = cv, verbose = 1)
+#     print("The other one-vs-rest validation score: ", cross_validation.mean())
 
 
 def visualizeResults(kernel, masker, func_filename = haxby_dataset.func[0]):
