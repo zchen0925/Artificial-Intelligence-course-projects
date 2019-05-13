@@ -1,3 +1,5 @@
+#replicated the tutorial at https://nilearn.github.io/auto_examples/02_decoding/plot_haxby_anova_svm.html
+
 from loadingData import *
 from sklearn.feature_selection import SelectPercentile, f_classif
 from sklearn.svm import SVC
@@ -54,7 +56,7 @@ fc_pred = model_fc.predict(FC)
 print("Linear model on face vs cat: ")
 modelAccuracy(model_fc, FC, conditions_facecat, session_facecat)
 visualizeResults(svc_fc, masker)
-
+#
 svc_fh = SVC(kernel='linear')
 model_fh = Pipeline([('anova', feature_selection), ('svc', svc_fh)])
 model_fh.fit(FH, conditions_facehouse)

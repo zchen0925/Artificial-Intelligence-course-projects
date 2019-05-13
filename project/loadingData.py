@@ -1,3 +1,14 @@
+# Ziqi Chen
+# CS 344 Final Project
+# Professor Vander Linden
+# fMRI Data multicategory classification
+
+# loadingData.py employs the NiLearn Python library to download the Haxby dataset,
+# which contains the brain scan images of four subjects and the accompanying labels
+# of the images they looked at while their brain activity was captured.
+# NiftiMasker function in the NiLearn library was used to transform the 4D brain scan images into 2D Numpy arrays,
+# which are vectors in which each datapoint represents the extrapolated brain tissue voxel * time
+
 from nilearn import datasets, image, plotting
 from nilearn.input_data import NiftiMasker
 from nilearn.image.image import mean_img
@@ -71,19 +82,9 @@ FH = X[facehouse_mask]
 
 FHC = X[threeway_mask]
 
-#three-way classification with NN
-FHC_train = FHC[:250]
-conditions_train = conditions_threeway[1:250]
-FHC_val = FHC[250:]
-Y_val = conditions_threeway[250:]
-# print("Length of training data: ", len(FHC_train))
-# print("Lenth of validation data: ", len(FHC_val))
-
-
 #type : numpy.ndarry
 print("Shape of transformed fMRI data:", FHC.shape)
-print(FHC[0])
-
+print("First row in transformed 2D array:", FHC[0])
 
 # References
 # Haxby, J., Gobbini, M., Furey, M., Ishai, A., Schouten, J., and Pietrini, P. (2001). Distributed and overlapping representations of faces and objects in ventral temporal cortex. Science 293, 2425-2430.
@@ -100,21 +101,28 @@ def processSubject(sub):
     conditions = behavioral['labels']
     threeway_mask = conditions.isin(['face', 'house', 'cat'])
     conditions_threeway = conditions[threeway_mask]
-    session_threeway = behavioral[threeway_mask].to_records(index = False)
     FHC = X[threeway_mask]
-    return FHC, conditions_threeway, session_threeway
+    return FHC, conditions_threeway
 
-X_all = np.empty(shape = (0, 39912))
-Y_all = []
-session_all = np.empty(shape = (324, ))
-# for sub in range(0, 4):
-#     x, y, session = processSubject(sub)
-#     print(y)
-#     print(session)
-#     X_all = np.concatenate((X_all, x), axis = 0)
-#     # session_all = np.concatenate((session_all, session), axis = 0)
+def processSessions(sub):
+    behavioral = pd.read_csv(haxby_dataset.session_target[sub], sep=" ")
+    conditions = behavioral['labels']
+    threeway_mask = conditions.isin(['face', 'house', 'cat'])
+    session_threeway = behavioral[threeway_mask].to_records(index = False)
+    return session_threeway
+
+X_all, Y_all = processSubject(0)
+session_all =  processSessions(0)
+for sub in range(1, 4):
+    x, y = processSubject(sub)
+    session = processSessions(sub)
+    X_all = np.concatenate((X_all, x), axis = 0)
+    Y_all = np.concatenate((Y_all, y))
+    session_all = np.concatenate((session_all, session))
 #
-# print("Shape of concatenated transformed fMRI data:", X_all.shape)
-# print(X_all[0])
-# print("Length of concatenated labels:", Y_all.shape)
-# print(Y_all)
+print("Shape of concatenated transformed fMRI data:", X_all.shape)
+print(X_all[0])
+print("Length of concatenated labels:", Y_all.shape)
+print(Y_all)
+print("Shape of concatenated sessions: ", session_all.shape)
+print(session_all)
