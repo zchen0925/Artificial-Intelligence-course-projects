@@ -9,6 +9,9 @@ This project was inspired from the neuroscience principle that our visual cortex
 ##### Overview:
 In this project, I'm using the Haxby et al (2001) dataset to perform a 3-way classification, trying to train the models to distinguish the fMRI brain scans that result from seeing a face, a cat, or a house. The dataset contains block-design fMRI data for 6 subjects who viewed 12 runs of repeated visual presentations of various stimuli. For the purpose of this project, only subjects 1 - 4 were included as they have complete fMRI data and the corresponding text labels, describing the stimuli type used in each trial.
 
+##### Installations:
+This project requires nilearn, sklearn, matplotlib, pandas, numpy, and keras.
+
 ##### Project Structure:
 **loadingData.py:**  
 - This module downloads a local copy of the Haxby dataset, and performs data preprocessing on the data, creating formatted X (transformed MRI scans) and Y (labels for what the subjects were seeing).  
