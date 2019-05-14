@@ -8,3 +8,6 @@ https://stats.stackexchange.com/questions/142325/svm-three-way-classification
 https://stats.stackexchange.com/questions/21465/best-way-to-perform-multiclass-svm
 
 https://arxiv.org/pdf/1606.02840.pdf
+
+https://www.researchgate.net/post/Is_there_a_Convolutional_Neural_Network_implementation_for_3D_images
+(introduced Keras 3D and Elektronn library, and also Caffe)
