@@ -11,14 +11,14 @@ In this project, I'm using the Haxby et al (2001) dataset to perform a 3-way cla
 
 ##### Project Structure:
 **loadingData.py:**  
-  This module downloads a local copy of the Haxby dataset, and performs data preprocessing on the data, creating formatted X (transformed MRI scans) and Y (labels for what the subjects were seeing).  
-  Subject count: 4  
-  Each condition per subject: 108  
-  Trials per subject: 324  
-  Total trials: 1296  
-  Uses NiftiMasker to transform the original 4D fMRI data (3D scans * time) into 2D vectors (numpy.ndarrays of shape (324, 39912)).      
-  The transformed 2D arrays contain numerical representations of activation over time, computed as activation of brain voxel * time.  
-  This module needs to be run before training the models.
+- This module downloads a local copy of the Haxby dataset, and performs data preprocessing on the data, creating formatted X (transformed MRI scans) and Y (labels for what the subjects were seeing).  
+- Subject count: 4  
+- Each condition per subject: 108  
+- Trials per subject: 324  
+- Total trials: 1296  
+- Uses NiftiMasker to transform the original 4D fMRI data (3D scans * time) into 2D vectors (numpy.ndarrays of shape (324, 39912)).      
+- The transformed 2D arrays contain numerical representations of activation over time, computed as activation of brain voxel * time.  
+- This module needs to be run before training the models.
   
 **binaryClassification.py:**  
  - This module replicates the tutorial found here: https://nilearn.github.io/auto_examples/02_decoding/plot_haxby_anova_svm.html  
