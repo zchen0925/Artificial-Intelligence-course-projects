@@ -1,4 +1,5 @@
 Ziqi Chen CS344 Final Project
+
 Multiclass Classification using SVM and NN on fMRI scans
 
 Vision:
