@@ -41,22 +41,6 @@ Y_val = Y[800:]
 # labels_train = conditions_threeway[:250]
 # labels_val = conditions_threeway[250:]
 
-# #after averaging every 50 elements in vector, fitting a DNN on the smaller-sized input:
-# smaller_model = models.Sequential()
-# # smaller_model.add(Dense(32, input_dim = 798, activation='relu'))
-# smaller_model.add(Dense(16, input_dim = 798, activation='relu'))
-# smaller_model.add(Dense(3, activation ='softmax'))
-# smaller_model.summary()
-#
-# smaller_model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-# smaller_model.fit(reshaped_Xtrain, labels_train, batch_size=324, epochs=5, verbose=1)
-# score = smaller_model.evaluate(reshaped_Xval, labels_val)
-#
-# print('Model with reduced input: ')
-# print('Test loss:', score[0])
-# print('Test accuracy:', score[1])
-
-
 #another DNN on all 4 subjects (1294 trials)
 model = models.Sequential()
 model.add(Dense(32, input_dim = 39912, activation='relu'))

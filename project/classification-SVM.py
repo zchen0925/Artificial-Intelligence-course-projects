@@ -44,18 +44,28 @@ def modelAccuracy(model, X, conditions, groups):
           (classification_accuracy, 1. / 3))
 
 def visualizeResults(kernel, masker, func_filename = haxby_dataset.func[0]):
-    coef = kernel.coef_
+    coef = kernel.coef_[0]
     # reverse feature selection
     coef = feature_selection.inverse_transform(coef)
     # reverse masking
     weight_img = masker.inverse_transform(coef)
-
+    # threshold = np.max(np.abs(weight_img.get_data()))
     # Use the mean image as a background to avoid relying on anatomical data
     mean_img = image.mean_img(func_filename)
-
     # Create the figure
-    plot_stat_map(weight_img, mean_img, title='SVM weights')
+    plot_stat_map(weight_img, mean_img, threshold=threshold, title='face vs house')
+    show()
 
+    coef = kernel.coef_[1]
+    # reverse feature selection
+    coef = feature_selection.inverse_transform(coef)
+    # reverse masking
+    weight_img = masker.inverse_transform(coef)
+    threshold = np.max(np.abs(weight_img.get_data()))
+    # Use the mean image as a background to avoid relying on anatomical data
+    mean_img = image.mean_img(func_filename)
+    # Create the figure
+    plot_stat_map(weight_img, mean_img, threshold=threshold, title='face vs cat')
     # Saving the results as a Nifti file may also be important
 #    weight_img.to_filename('haxby_face_vs_house.nii')
     show()
