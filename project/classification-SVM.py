@@ -8,14 +8,12 @@
 
 
 from loadingData import *
-from sklearn.feature_selection import SelectPercentile, f_classif
-from sklearn import svm
+from sklearn.feature_selection import SelectPercentile, f_classif, chi2, SelectKBest
 from sklearn.svm import LinearSVC, SVC
 from sklearn.pipeline import Pipeline
 from nilearn import image
 from nilearn.plotting import plot_stat_map, show
 from sklearn.model_selection import LeaveOneGroupOut, cross_val_score
-import numpy as np
 import matplotlib.pyplot as plt
 
 #cited from: https://nilearn.github.io/auto_examples/02_decoding/plot_haxby_anova_svm.html
@@ -25,6 +23,7 @@ import matplotlib.pyplot as plt
     # SelectPercentile, keeping 5% of voxels
     # (because it is independent of the resolution of the data).
 feature_selection = SelectPercentile(f_classif, percentile=5)
+k_features = SelectKBest(f_classif, k = 7)
 
 # Output accuracy
 # Define the cross-validation scheme used for validation.
@@ -63,10 +62,12 @@ def visualizeResults(kernel, masker, func_filename = haxby_dataset.func[0]):
 
 #one-vs-the-rest linear kernel
 #cited from https://scikit-learn.org/stable/modules/svm.html#multi-class-classification
-#Pipeline ANOVA SVM with anova F-value, percetile feature selection
+#Pipeline ANOVA SVM with anova F-value, percetile feature selection. This is univariate feature selection
+print("Fitting a linear SVC with Pipelined Anova f-value feature selection on subject 1 (324) trials: ")
 lin_svc = LinearSVC()
 facecathouse_svc = Pipeline([('anova', feature_selection), ('svc', lin_svc)])
 facecathouse_svc.set_params(svc__C = 10, svc__max_iter = 2500)
+facecathouse_svc.set_params(anova__percentile = 3.3, svc__max_iter = 750)
 facecathouse_svc.fit(FHC, conditions_threeway)
 
 print("Pipelined SVM with linear kernel accuracy: ")
@@ -76,15 +77,19 @@ cross_validation = cross_val_score(facecathouse_svc, FHC, conditions_threeway, c
 print("Pipelined SVM with linear kernel cross validation score: ", cross_validation.mean())
 
 # fitting on all four subjects
+print("Now fitting a linear SVC on all four subjects (1296 trials) instead of one subject:")
 lin_svc1 = LinearSVC()
 allSubs_svc = Pipeline([('anova', feature_selection), ('svc', lin_svc1)])
-allSubs_svc.set_params(anova__percentile = 3, svc__max_iter = 3000)
+allSubs_svc.set_params(anova__percentile = 2.9, svc__max_iter = 5000)
 allSubs_svc.fit(X_all, Y_all)
 
 print("Linear SVM with all subjects accuracy: ")
 modelAccuracy(allSubs_svc, X_all, Y_all, session_all)
 
-cross_validation = cross_val_score(allSubs_svc, X_all, Y_all, cv = 6, verbose = 1)
+cross_validation = cross_val_score(allSubs_svc, X_all, Y_all, cv = 7, verbose = 1)
 print("Linear SVM with all subjects cross validation score: ", cross_validation.mean())
 #
 # visualizeResults(lin_svc, masker)
+#voxel is the 3D equivalent of a 2D pixel: cited from https://towardsdatascience.com/deep-learning-with-magnetic-resonance-and-computed-tomography-images-e9f32273dcb5
+
+#future learning: check out NiftyNet https://pypi.org/project/NiftyNet/

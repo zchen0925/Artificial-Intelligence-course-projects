@@ -67,24 +67,20 @@ session_facehouse = behavioral[facehouse_mask].to_records(index = False)
 threeway_mask = conditions.isin(['face', 'house', 'cat'])
 conditions_threeway = conditions[threeway_mask]
 session_threeway = behavioral[threeway_mask].to_records(index = False)
-print("Number of trials: ", len(conditions_threeway))
+# print("Number of trials: ", len(conditions_threeway))
 mask_filename = haxby_dataset.mask
+
 #masking the data from 4D image to 2D array: voxel x time
 #with smothing and standardization
 masker = NiftiMasker(mask_img=mask_filename, smoothing_fwhm=4, standardize=True, memory="nilearn_cache", memory_level=1)
-print(haxby_dataset.mask)
 X = masker.fit_transform(fmri_filename)
 
-# Apply our condition_mask
+# Apply our condition_mask to subject 1's brain scans:
 FC = X[facecat_mask]
 
 FH = X[facehouse_mask]
 
 FHC = X[threeway_mask]
-
-#type : numpy.ndarry
-print("Shape of transformed fMRI data:", FHC.shape)
-print("First row in transformed 2D array:", FHC[0])
 
 # References
 # Haxby, J., Gobbini, M., Furey, M., Ishai, A., Schouten, J., and Pietrini, P. (2001). Distributed and overlapping representations of faces and objects in ventral temporal cortex. Science 293, 2425-2430.
@@ -120,9 +116,16 @@ for sub in range(1, 4):
     Y_all = np.concatenate((Y_all, y))
     session_all = np.concatenate((session_all, session))
 #
-print("Shape of concatenated transformed fMRI data:", X_all.shape)
-print(X_all[0])
-print("Length of concatenated labels:", Y_all.shape)
-print(Y_all)
-print("Shape of concatenated sessions: ", session_all.shape)
-print(session_all)
+
+def peakData():
+    #np.ndarray
+    print("Shape of concatenated transformed fMRI data:", X_all.shape)
+    print("Example row in the resulting 2D array: ", X_all[0])
+    #np.series
+    print("Length of concatenated labels:", Y_all.shape)
+    print("First five labels: ",Y_all[0:5])
+    #pd.recarray
+    print("Shape of concatenated sessions: ", session_all.shape)
+    print("First fifteen tuples recording sessions: ", session_all[0:15])
+
+peakData()
